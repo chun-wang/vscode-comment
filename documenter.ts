@@ -1,8 +1,21 @@
+import * as Commenters from "./commenter";
+
 export class Documenter {
 	private target: string;
 
 	constructor(target: string) {
 		this.target = target;
+	}
+
+	document(): string {
+		var commenter: Commenters.Commenter;
+		if (this.isFunction()) {
+			commenter = new Commenters.FunctionCommenter(this.target);
+		} else {
+			console.log("unknow type");
+		}
+
+		return commenter.comment();
 	}
 
 	isFunction() {
@@ -24,8 +37,4 @@ export class Documenter {
 	isUnion() {
 		return this.target.match(/^\s*(\w+\s)?union.*\{.*\}/i) != null;
 	}
-}
-
-export function getDocumentText(): string {
-	return "";
 }
